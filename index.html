@@ -357,6 +357,21 @@ html{-webkit-text-size-adjust:100%;scroll-padding-bottom:calc(84px + env(safe-ar
   #miniPreview .mp-row{margin-top:8px}
 }
 
+/* 折りたたみ（details）をボタンらしく。11/15 お嬢フィードバック */
+@media (max-width:700px){
+  details{border-top:0;padding-top:0;margin-top:14px}
+  details>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:50px;padding:10px 14px;
+    border:1px solid #B9D3E4;border-radius:12px;background:#F2F9FD;color:#1E4E6B;cursor:pointer;-webkit-tap-highlight-color:rgba(112,214,231,.25)}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::after{content:"ひらく ▾";flex:0 0 auto;font-size:13px;font-weight:700;color:#155F7C;background:#fff;border:1px solid #B9D3E4;border-radius:999px;padding:3px 8px;white-space:nowrap}
+  details[open]>summary{border-bottom-left-radius:0;border-bottom-right-radius:0;background:#E6F3FA}
+  details[open]>summary::after{content:"とじる ▴"}
+  details[open]>summary~*{margin-left:2px;margin-right:2px}
+  details[open]{border:1px solid #B9D3E4;border-radius:12px;padding:0 12px 12px;background:#FBFDFF}
+  details[open]>summary{margin:0 -12px 8px}
+  html.ui-large details>summary::after{font-size:14.5px}
+}
+
 </style>
 </head>
 <body>
