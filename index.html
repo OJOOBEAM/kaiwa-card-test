@@ -347,6 +347,16 @@ html{-webkit-text-size-adjust:100%;scroll-padding-bottom:calc(84px + env(safe-ar
 .nav-flash{animation:navFlash 1.1s ease-out}
 @media (prefers-reduced-motion:reduce){.nav-flash{animation:none;outline:3px solid #70D6E7}}
 
+#miniPreview{display:none}
+@media (max-width:700px){
+  #miniPreview:not([hidden]){display:block;margin:12px 0 4px;padding:12px;border:1px solid #CFE2EE;border-radius:14px;background:#F4FAFE}
+  #miniPreview .mp-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px;color:#233B55}
+  #miniPreview .mp-count{font-size:14px;color:#546579}
+  #miniPreview .mp-img{display:flex;flex-direction:column;justify-content:flex-end;width:100%;padding:0;border:1px solid #DDE8F0;border-radius:10px;background:#fff;overflow:hidden;max-height:340px;min-height:0}
+  #miniPreview .mp-img img{display:block;width:100%;height:auto;flex:0 0 auto}
+  #miniPreview .mp-row{margin-top:8px}
+}
+
 </style>
 </head>
 <body>
@@ -701,8 +711,27 @@ function decorate(card){
     if(canShareFiles()){var s=document.createElement('button');s.type='button';s.className='share-btn';s.textContent='共有・写真に保存';s.onclick=function(){sharePng(Array.prototype.indexOf.call(document.querySelectorAll('#pages .page'),card))};foot.append(s)}
   }
 }
+
+// ---- セリフ欄のすぐ下のミニプレビュー（スマホでスクロールせずに結果を見る）----
+var mini=document.createElement('div');mini.id='miniPreview';mini.hidden=true;
+mini.innerHTML='<div class="mp-head"><strong>いまのカード（下が最新）</strong><span class="mp-count"></span></div><button type="button" class="mp-img" aria-label="カードを拡大"><img alt=""></button><div class="row mp-row"><button type="button" class="mp-zoom">拡大</button><button type="button" class="mp-all">全部のカードを見る</button></div>';
+var anchor=$('composerStatus');if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(mini,anchor.nextSibling);
+var mpIndex=-1;
+function updateMini(){
+  var n=(typeof rendered!=='undefined'&&rendered)?rendered.length:0;
+  var cards=document.querySelectorAll('#pages .page');
+  if(!n||cards.length!==n){mini.hidden=true;return}
+  mpIndex=n-1;var r=rendered[mpIndex];
+  mini.querySelector('img').src=r.url;mini.querySelector('img').alt=r.text||'';
+  mini.querySelector('.mp-count').textContent=n>1?('最後の1枚（'+n+'枚中）'):'1枚';
+  mini.hidden=false;
+}
+mini.querySelector('.mp-img').onclick=function(){if(mpIndex>=0)openZoom(mpIndex)};
+mini.querySelector('.mp-zoom').onclick=function(){if(mpIndex>=0)openZoom(mpIndex)};
+mini.querySelector('.mp-all').onclick=function(){var t=$('previewSection');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})};
+
 var pages=$('pages');
-new MutationObserver(function(){pages.querySelectorAll('.page').forEach(decorate)}).observe(pages,{childList:true});
+new MutationObserver(function(){pages.querySelectorAll('.page').forEach(decorate);updateMini()}).observe(pages,{childList:true});
 pages.querySelectorAll('.page').forEach(decorate);
 })();
 
