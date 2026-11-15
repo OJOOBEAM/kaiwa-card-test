@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>会話カード工房 スマホ版（試作）</title>
+<style>
+:root{--ink:#29352f;--sub:#66726a;--line:#dbe2d9;--paper:#f6f7f2;--green:#315c49;--soft:#e9f0e6;--white:#fff;--amber:#865d20}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Segoe UI','Yu Gothic','Hiragino Kaku Gothic ProN',sans-serif;font-size:15px;line-height:1.65}header{padding:27px max(24px,calc((100vw - 1420px)/2));background:#fff;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px}.mark{display:grid;place-items:center;background:var(--green);color:white;width:45px;height:45px;border-radius:14px;font-size:25px;font-weight:bold}h1{font-size:26px;line-height:1.25;margin:0;letter-spacing:.04em}header p{margin:7px 0 0;color:var(--sub)}.badge{font-size:12px;border:1px solid var(--line);border-radius:30px;padding:3px 10px;margin-left:auto}main{max-width:1468px;margin:auto;padding:24px;display:grid;grid-template-columns:minmax(360px,470px) minmax(0,1fr);gap:24px}.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:18px}h2{font-size:17px;margin:0 0 14px;display:flex;align-items:center;gap:9px}.step{font-size:12px;background:var(--soft);color:var(--green);width:27px;height:27px;display:grid;place-items:center;border-radius:50%}label{display:block;font-weight:600;font-size:13px;margin:12px 0 5px}textarea,input,select,button{font:inherit}textarea{width:100%;min-height:255px;padding:13px;resize:vertical;border:1px solid var(--line);border-radius:10px;line-height:1.65;font-size:14px;color:var(--ink);background:#fcfcfa}textarea:focus,input:focus,select:focus,button:focus-visible{outline:3px solid #8cbca8;outline-offset:2px}input[type=text],input[type=number],select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}button,.filebutton{border:1px solid var(--line);border-radius:10px;background:#fff;padding:9px 13px;cursor:pointer;font-weight:600;font-size:13px;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;margin:0}button:hover,.filebutton:hover{background:#f0f4ee}button:disabled{opacity:.5;cursor:wait}.primary{background:var(--green);border-color:var(--green);color:white}.primary:hover{background:#244535}.wide{width:100%;padding:13px}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.help{font-size:12px;color:var(--sub);margin:8px 0}.hint{border-left:3px solid #9dbda9;padding-left:11px;color:var(--sub);font-size:13px}.speaker{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}.speaker-head{font-weight:bold;overflow-wrap:anywhere;margin-bottom:7px}.speaker .row{align-items:center}.speaker select{width:85px;padding:6px}.speaker input[type=color]{border:0;width:34px;height:34px;padding:1px;background:none}.avatar-thumb{width:35px;height:35px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}.preview-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.preview-head h2{margin:0}.preview-wrap{position:sticky;top:20px}.counter{color:var(--sub);font-size:13px}.page{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin:16px 0;box-shadow:0 6px 25px #27352b08}.page img{width:100%;height:auto;display:block;border:1px solid #e9ece6}.page-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px;color:var(--sub);font-size:12px}.empty{min-height:360px;display:grid;place-items:center;text-align:center;color:var(--sub);border:1px dashed #b8c9bc;border-radius:14px;margin-top:16px;padding:30px}.status{font-size:13px;min-height:26px;margin-top:10px;color:var(--green);white-space:pre-line}.status.error{color:#a13d32}.notice{padding:10px 13px;background:#fff6e6;border:1px solid #eadab9;border-radius:9px;color:var(--amber);font-size:13px;margin:12px 0}.hidden{display:none!important}details{font-size:13px;border-top:1px solid var(--line);padding-top:12px;margin-top:16px}summary{cursor:pointer;font-weight:bold}footer{padding:15px 24px 28px;text-align:center;color:var(--sub);font-size:12px}#pages{max-height:calc(100vh - 200px);overflow:auto;padding-right:5px}code{font-family:ui-monospace,monospace;background:var(--paper);padding:2px 4px;border-radius:4px}a{color:var(--green)}@media(max-width:900px){main{grid-template-columns:1fr;padding:16px}.preview-wrap{position:static}header{padding:22px 16px}.badge{display:none}#pages{max-height:none}h1{font-size:22px}}@media(prefers-reduced-motion:no-preference){button{transition:background .12s}}
+.dialogue{min-height:120px}.saved-people{display:flex;flex-wrap:wrap;gap:8px}.person-chip{gap:8px;max-width:100%;overflow-wrap:anywhere}.person-chip[aria-pressed=true]{border-color:var(--green);background:var(--soft)}.avatar-placeholder{width:42px;height:42px;border-radius:50%;background:var(--soft);display:inline-grid;place-items:center;font-weight:700}.person-icon{align-items:center}.person-icon img{width:42px;height:42px;border-radius:50%;object-fit:cover}.person-chip img{width:28px;height:28px;border-radius:50%;object-fit:cover}.conversation-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}.dialogue-list{max-height:300px;overflow:auto;margin-top:8px}.dialogue-card{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}.dialogue-card p{margin:4px 0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px}.dialogue-card .row{margin-top:6px}.dialogue-card button{padding:4px 9px;font-size:12px}#personSide{width:90px}#personColor{width:36px;height:36px;padding:0;border:0}#savedPeople:empty{display:none}#namePanel label .counter{font-weight:400;margin-left:8px}
+</style>
+<style id="synrai-dawnsky-preview">
+
+/* SYNRAI BEAM / COSMIC OBSERVATORY / DAWN SKY
+   Exterior visual skin for the v0.9.2 full-edition functionality.
+   Deliberately CSS and introductory markup only. Product engine unchanged.
+*/
+:root {
+  --cosmos-midnight:#0B1932;
+  --cosmos-deep:#111C38;
+  --cosmos-nebula:#62558F;
+  --cosmos-cyan:#70D6E7;
+  --cosmos-gold:#E3C48B;
+  --cosmos-ink:#1E3047;
+  --cosmos-muted:#546579;
+  --cosmos-line:#DAE4F0;
+  --cosmos-surface:#FFFFFF;
+  --cosmos-ivory:#F9FBFF;
+  --cosmos-focus:#087A93;
+  --cosmos-error:#A12738;
+  --cosmos-shadow:0 15px 42px rgba(19,39,78,.075),0 2px 6px rgba(19,39,78,.035);
+  --cosmos-radius:18px;
+  --ink:var(--cosmos-ink); --sub:var(--cosmos-muted); --line:var(--cosmos-line);
+  --paper:#F0F6FC; --green:#155F7C; --soft:#E8F4FB; --amber:#805018;
+}
+html {scroll-behavior:smooth;}
+body {
+  background:
+    radial-gradient(ellipse 58% 48% at 97% 32%,rgba(202,214,241,.5),transparent 72%),
+    radial-gradient(ellipse 44% 38% at 2% 68%,rgba(207,234,248,.49),transparent 74%),
+    #F3F8FC;
+  color:var(--cosmos-ink);
+  font-family:system-ui,-apple-system,"Segoe UI","Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
+}
+button, .filebutton, input, textarea, select {font-family:inherit;}
+button:focus-visible, .filebutton:focus-within, input:focus-visible,
+textarea:focus-visible, select:focus-visible, a:focus-visible, summary:focus-visible {
+  outline:3px solid var(--cosmos-focus); outline-offset:3px;
+}
+button:not(:disabled):hover, .filebutton:hover {filter:brightness(.985);transform:translateY(-1px);}
+button:disabled {cursor:not-allowed;}
+/* Brand masthead, not part of the generated PNG output */
+header.cosmos-header {
+  isolation:isolate;position:relative;overflow:hidden;
+  background:linear-gradient(113deg,#102644 0%,#183559 53%,#324B70 78%,#4E4773 100%);
+  border:0;box-shadow:0 11px 30px rgba(15,37,66,.13);
+  padding:41px max(25px,calc((100vw - 1410px)/2)) 44px;
+  color:#FCFEFF;
+}
+header.cosmos-header::before {
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.86;
+  background-image:
+    radial-gradient(circle at 22% 20%,rgba(255,255,255,.96) 0 1.2px,transparent 1.8px),
+    radial-gradient(circle at 78% 62%,rgba(212,235,255,.7) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 53% 37%,rgba(243,208,149,.85) 0 1px,transparent 1.7px);
+  background-size:191px 136px,267px 169px,337px 235px;
+}
+header.cosmos-header::after {
+  content:"";position:absolute;pointer-events:none;right:-145px;top:-250px;
+  width:660px;height:580px;border-radius:50%;z-index:-1;
+  background:radial-gradient(ellipse at center,rgba(188,151,228,.32),rgba(91,166,220,.15) 43%,transparent 70%);
+}
+.cosmos-shell {max-width:1370px;margin:auto;display:grid;grid-template-columns:minmax(0,1.04fr) minmax(350px,.85fr);align-items:center;gap:48px;}
+.cosmic-eyebrow {margin:0 0 20px;color:#CFECF8;font-size:11px;font-weight:750;letter-spacing:.235em;}
+.cosmic-eyebrow .spark {color:#F9D9A0;margin-right:9px;font-size:15px;}
+header.cosmos-header .brand {gap:15px;flex-wrap:wrap;}
+header.cosmos-header .mark {
+  background:linear-gradient(145deg,#DDF7FD,#94D3E8 65%,#C2B8E9);
+  color:#1D5369;border:1px solid rgba(255,255,255,.73);
+  width:54px;height:54px;border-radius:16px;
+  box-shadow:0 5px 21px rgba(96,206,232,.23);font-size:30px;
+}
+header.cosmos-header h1 {color:#FFF;font-size:clamp(28px,3.1vw,40px);font-weight:850;letter-spacing:.055em;}
+header.cosmos-header .badge {
+  color:#DEFAFF;background:rgba(8,27,58,.27);border-color:rgba(184,231,246,.47);
+  font-size:11px;letter-spacing:.015em;margin-left:0;
+}
+header.cosmos-header p {color:#E2EFFC;margin:19px 0 0;line-height:1.85;}
+header.cosmos-header .cosmo-lead {font-size:17px;font-weight:720;margin-top:26px;color:#FFF;}
+header.cosmos-header .cosmo-subcopy {font-size:13px;margin-top:8px;color:#DBECFB;}
+.cosmo-start {
+  display:inline-flex;align-items:center;gap:10px;margin-top:24px;padding:11px 22px;
+  background:#F8FBFD;border:1px solid #E9F3FA;border-radius:12px;
+  color:#1E526E;font-size:13px;font-weight:800;letter-spacing:.02em;text-decoration:none;
+  box-shadow:0 8px 20px rgba(9,24,50,.13);
+}
+.cosmo-start:hover {background:#E8F8FC;transform:translateY(-1px);}
+/* Static visual example. Clearly labeled to avoid implying real generated output. */
+.cosmo-example-wrap {position:relative;min-width:0;}
+.cosmo-example-wrap:before {content:"";position:absolute;inset:26px -12px -8px 26px;
+  border:1px solid rgba(211,235,255,.24);border-radius:22px;transform:rotate(2deg);pointer-events:none;}
+.cosmo-example {
+  position:relative;background:#FFFFFF;border:1px solid #D7E7F0;border-radius:21px;
+  box-shadow:0 22px 55px rgba(8,25,54,.32);padding:20px 23px 18px;
+  color:#264057;transform:rotate(-1deg);
+}
+.cosmo-example-heading {display:flex;justify-content:space-between;align-items:center;gap:10px;
+  color:#5B6D82;font-size:10px;font-weight:800;letter-spacing:.1em;}
+.cosmo-example-heading .ex-star {color:#AA7E3B;font-size:17px;line-height:1;}
+.cosmo-example-title {font-size:15px;font-weight:850;color:#2F445B;border-bottom:1px solid #E8EEF4;
+  margin:16px 0 17px;padding-bottom:11px;}
+.ex-line {display:flex;align-items:flex-start;gap:10px;margin-top:14px;}
+.ex-line.right {flex-direction:row-reverse;}
+.ex-avatar {width:37px;height:37px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;
+  color:#1D5369;background:#DCEFFA;border:1px solid #C5E1EF;font-size:13px;font-weight:900;}
+.ex-line.right .ex-avatar {color:#73578E;background:#EFE6F7;border-color:#E0D6EB;}
+.ex-chat {max-width:calc(100% - 49px);}
+.ex-name {color:#6E7F8E;font-size:10px;font-weight:750;margin:0 0 3px 3px;}
+.ex-line.right .ex-name {text-align:right;margin:0 3px 3px 0;}
+.ex-bubble {background:#EAF4FC;border:1px solid #D7E8F6;border-radius:13px;padding:10px 14px;
+  color:#244052;font-size:12px;line-height:1.7;}
+.ex-line.right .ex-bubble {background:#F4EBFA;border-color:#E9DCF1;}
+.cosmo-example-foot {text-align:center;font-size:10px;color:#8192A3;margin:17px 0 0;letter-spacing:.04em;}
+.cosmo-testing-note {margin:13px 0 0;text-align:center;color:#E4ECF8;font-size:11px;letter-spacing:.01em;}
+/* Editor surface */
+main {max-width:1470px;padding:29px 25px 65px;gap:26px;grid-template-columns:minmax(360px,485px) minmax(0,1fr);}
+.panel {
+  background:rgba(255,255,255,.985);border:1px solid #DBE7F1;
+  border-radius:var(--cosmos-radius);box-shadow:var(--cosmos-shadow);
+  padding:24px;position:relative;overflow:hidden;margin-bottom:20px;
+}
+.panel:before {content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg,#8FCEE1,#C5B6E4 61%,transparent);opacity:.88;pointer-events:none;}
+.panel h2 {font-size:17px;letter-spacing:.012em;color:#233B55;}
+.step {width:30px;height:30px;background:linear-gradient(145deg,#D7F2F9,#E7E8F9);
+  color:#1B607D;border:1px solid #BDE0EC;border-radius:10px;font-weight:850;}
+label {font-weight:700;color:#31475C;}
+.help,.counter {color:var(--cosmos-muted);}
+input[type=text],input[type=number],select,textarea {border-color:#CEDDEA;background:#FCFEFF;color:#273A50;}
+input[type=text]:focus, input[type=number]:focus,select:focus,textarea:focus {border-color:#7FBACA;}
+button,.filebutton {border-color:#C9DAE7;color:#26506C;background:#FFFFFF;}
+button:not(:disabled):hover,.filebutton:hover {background:#F2F9FD;}
+.primary {background:linear-gradient(110deg,#155F7C,#245D91);color:#fff;border-color:#155F7C;}
+.primary:not(:disabled):hover {background:linear-gradient(110deg,#124A65,#1E527B);color:#fff;}
+#sample {background:#E5F7FA;border-color:#A6D5E1;color:#155670;}
+#build,#refresh {background:#EAF5FC;border:1px solid #B3D3E6;color:#145C78;}
+#bundle {min-height:51px;}
+.notice {background:#FFF8E9;border-color:#E9DDC5;}
+.speaker,.dialogue-card {border-color:#E0EAF3;background:#FBFDFF;}
+.person-chip[aria-pressed=true] {background:#E6F5FA;border-color:#A7D0DE;}
+.preview-wrap {
+  background:linear-gradient(156deg,rgba(255,255,255,.99),rgba(248,251,255,.99));
+  border:1px solid #D6E2F0;border-radius:22px;padding:24px;
+  box-shadow:var(--cosmos-shadow);top:23px;
+}
+.preview-head {padding-bottom:12px;border-bottom:1px solid #E2EBF5;}
+.preview-head h2 {font-size:18px;letter-spacing:.025em;color:#243C59;}
+.preview-head h2:before {content:"✧";color:#A88247;margin-right:9px;}
+.preview-wrap>.help {margin-top:15px;font-size:12px;}
+.empty {min-height:425px;border:1px dashed #B7D2E2;
+  background:radial-gradient(circle at 80% 12%,#E9F1FE,transparent 49%),linear-gradient(150deg,#F1F8FF,#F9F8FF);
+  border-radius:17px;color:#4B627C;}
+.empty strong {font-size:17px;color:#2A4563;}
+.page {border-color:#DEE8F0;box-shadow:0 12px 25px rgba(22,40,66,.06);}
+.status.error {color:var(--cosmos-error);}
+footer {color:#60748A;}
+@media (max-width:1100px) {
+  .cosmos-shell {gap:24px;grid-template-columns:minmax(0,1fr) minmax(310px,.8fr);}
+  main {grid-template-columns:minmax(320px,430px) minmax(0,1fr);gap:18px;padding-left:16px;padding-right:16px;}
+}
+@media (max-width:900px) {
+  .cosmos-shell {grid-template-columns:1fr;gap:23px;}
+  header.cosmos-header {padding:27px 22px 34px;}
+  .cosmo-example-wrap {max-width:500px;width:100%;margin:0 auto;}
+  main {grid-template-columns:1fr;max-width:670px;padding:24px 16px 50px;}
+  .preview-wrap {position:static;}
+  #pages {max-height:none;}
+  header.cosmos-header .badge {display:inline-block;}
+}
+@media (max-width:540px) {
+  header.cosmos-header {padding:22px 17px 28px;}
+  header.cosmos-header h1 {font-size:29px;}
+  header.cosmos-header .mark {height:48px;width:48px;}
+  .cosmic-eyebrow {font-size:10px;letter-spacing:.14em;margin-bottom:16px;}
+  .cosmo-example {padding:15px;transform:none;}
+  .cosmo-example-wrap:before {display:none;}
+  main {padding:20px 12px 35px;}
+  .panel,.preview-wrap {padding:18px;}
+  .empty {min-height:315px;}
+  header.cosmos-header .cosmo-lead {font-size:15px;}
+  .cosmo-start {margin-top:19px;}
+}
+@media (prefers-reduced-motion:reduce) {
+  html {scroll-behavior:auto;}
+  button,.filebutton,.cosmo-start {transition:none!important;transform:none!important;}
+}
+
+</style>
+<script id="mobile-polyfill">
+/* 古いiOS(〜15.3)向け最小ポリフィル。エンジンが使う Object.hasOwn / roundRect が無いと起動直後に落ちる。 */
+(function(){
+  if(!Object.hasOwn){Object.defineProperty(Object,'hasOwn',{value:function(o,k){return Object.prototype.hasOwnProperty.call(o,k)},configurable:true,writable:true})}
+  var P=window.CanvasRenderingContext2D&&CanvasRenderingContext2D.prototype;
+  if(P&&!P.roundRect){P.roundRect=function(x,y,w,h,r){
+    r=Array.isArray(r)?r[0]:(r||0);r=Math.max(0,Math.min(r,Math.abs(w)/2,Math.abs(h)/2));
+    this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath()}}
+})();
+
+</script>
+<style id="mobile-layer">
+/* ===== スマホ層（元のDawn Skyスキンの後ろに重ねる。エンジンは無変更） ===== */
+#mobileNav{display:none}
+html{-webkit-text-size-adjust:100%;scroll-padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+/* ファイルが開けない/JS無効時の案内。JSが動くと js-ok が付いて消える */
+.nojs-banner{display:block;margin:0;padding:14px 16px;background:#FFF1D6;color:#5A3A00;font-size:15px;line-height:1.6;border-bottom:2px solid #E0B25A}
+.js-ok .nojs-banner{display:none}
+/* ファイル入力は display:none にせず視覚的に隠す（iOS WebKitでラベル経由のタップを確実にするため） */
+.filebutton{position:relative;overflow:hidden}
+.filebutton>input.hidden{display:block!important;position:absolute;inset:0;width:100%;height:100%;opacity:0;font-size:16px;cursor:pointer}
+/* タップ後に残るhover浮きを抑止 */
+@media (hover:none){button:not(:disabled):hover,.filebutton:hover,.cosmo-start:hover{transform:none!important;filter:none}}
+/* 画像の長押し保存を殺さない */
+.page img{-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto;cursor:zoom-in}
+.page-foot{flex-wrap:wrap}
+.page-foot .share-btn{margin-left:auto}
+
+@media (max-width:700px){
+  body{font-size:16px;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  /* iOSは16px未満の入力欄にフォーカスすると画面が勝手に拡大される */
+  textarea,input[type=text],input[type=number],select{font-size:16px!important}
+  textarea{min-height:170px}
+  /* 指で押せる大きさ(44px以上) */
+  button,.filebutton{min-height:46px;padding:10px 14px;font-size:15px}
+  .dialogue-card button{min-height:44px;padding:8px 12px;font-size:14px}
+  select{min-height:46px}
+  summary{min-height:44px;display:flex;align-items:center;font-size:15px}
+  .speaker select{width:auto;min-width:96px}
+  .speaker input[type=color],#personColor{width:46px;height:46px}
+  .row{gap:10px}
+  .row>button,.row>.filebutton{flex:1 1 auto}
+  .grid2{grid-template-columns:1fr}
+  .help,.counter,.status{font-size:14px}
+  .person-chip{min-height:46px}
+  .person-chip img{width:32px;height:32px}
+  /* 初画面を作業に使う: ヘッダーの装飾見本は畳む */
+  header.cosmos-header{padding:calc(16px + env(safe-area-inset-top)) 16px 20px}
+  .cosmo-example-wrap{display:none}
+  header.cosmos-header h1{font-size:26px}
+  header.cosmos-header .cosmo-lead{margin-top:14px;font-size:16px}
+  header.cosmos-header .cosmo-subcopy{font-size:14px;margin-top:6px}
+  .cosmo-start{margin-top:14px;min-height:46px}
+  /* 並び順: 名前 → 会話 → 見た目 → プレビュー → 保存 */
+  main{display:flex;flex-direction:column;padding:14px 12px 24px;gap:0;max-width:none}
+  main>section{display:contents}
+  main>section>.panel:nth-of-type(1){order:1}main>section>.panel:nth-of-type(2){order:2}main>section>.panel:nth-of-type(3){order:3}
+  main>section[aria-label="プレビュー"]{order:4;display:block}
+  main>section>.panel:nth-of-type(4){order:5}
+  .panel{padding:16px}
+  .preview-wrap{padding:14px;margin-bottom:18px}
+  /* プレビューの画像は幅いっぱい・タップで拡大 */
+  .page{padding:8px;margin:12px 0}
+  .page-foot{font-size:13px}
+  /* 下部ナビ */
+  #mobileNav{display:grid}
+}
+#mobileNav{position:fixed;left:0;right:0;bottom:0;z-index:50;grid-template-columns:repeat(4,1fr);gap:6px;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(11,25,50,.96);border-top:1px solid #2c4468;backdrop-filter:blur(8px)}
+#mobileNav button{min-height:52px;border:1px solid #3d5a85;background:#17294a;color:#EAF6FF;border-radius:12px;font-size:13px;font-weight:700;line-height:1.25;padding:6px 4px;flex-direction:column;gap:2px}
+#mobileNav button .ni{font-size:18px;line-height:1}
+#mobileNav button:active{background:#244a78}
+#mobileNav button.active{background:#E8F4FB;color:#10405a;border-color:#8FCEE1}
+/* 拡大ビューア */
+#zoomView{position:fixed;inset:0;z-index:100;background:#0B1932;display:none;flex-direction:column}
+#zoomView.open{display:flex}
+#zoomBar{display:flex;align-items:center;gap:8px;padding:calc(8px + env(safe-area-inset-top)) 10px 8px;background:#10213f;color:#EAF6FF}
+#zoomBar .zt{flex:1;font-size:13px;line-height:1.4}
+#zoomBar button{min-height:44px;background:#E8F4FB;color:#10405a;border-color:#8FCEE1}
+#zoomScroll{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom;padding:8px}
+#zoomScroll img{display:block;max-width:none;width:760px;height:auto;margin:0;border-radius:6px;background:#fff;-webkit-touch-callout:default}
+#zoomHint{padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:#10213f;color:#cfe3f6;font-size:12px;text-align:center}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.bigname-toggle{display:flex;align-items:center;gap:10px;margin-top:12px;min-height:46px;padding:8px 12px;border:1px solid #C9DAE7;border-radius:10px;background:#F7FBFE;font-weight:700;cursor:pointer}
+.bigname-toggle input{width:24px;height:24px;flex:0 0 auto;accent-color:#155F7C}
+.bigname-toggle small{display:block;font-weight:400;font-size:13px;color:#546579}
+
+/* 説明・設定の文字をスマホで読みやすく（11/15 お嬢フィードバック） */
+@media (max-width:700px){
+  body{font-size:17px;line-height:1.7}
+  label{font-size:16px!important}
+  .help,.counter,.status,.hint,.notice{font-size:15.5px!important;line-height:1.7}
+  details{font-size:16px}
+  details p{font-size:15.5px}
+  summary{font-size:16.5px}
+  .panel h2{font-size:20px}
+  .preview-head h2{font-size:20px}
+  .step{width:34px;height:34px;font-size:15px}
+  .dialogue-card p{font-size:16px}
+  .dialogue-card strong{font-size:16px}
+  .speaker-head{font-size:16px}
+  .page-foot{font-size:14.5px}
+  .preview-wrap>.help{font-size:15px}
+  .person-chip{font-size:16px}
+  .bigname-toggle{font-size:16px}
+  .bigname-toggle small{font-size:14px}
+  header.cosmos-header .cosmo-subcopy{font-size:15px}
+  .cosmic-eyebrow{font-size:11px!important}
+  footer{font-size:13px}
+  #zoomBar .zt{font-size:14px}
+  #zoomHint{font-size:13.5px}
+}
+
+/* 画面の文字の大きさ切替（標準／大きめ）。カード画像には影響しない */
+.ui-size{display:none}
+@media (max-width:700px){
+  .ui-size{display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .ui-size .us-label{color:#E2EFFC;font-size:15px;font-weight:700;margin-right:4px}
+  .ui-size button{min-height:46px;padding:8px 16px;background:rgba(8,27,58,.35);color:#EAF6FF;border:1px solid rgba(184,231,246,.5);border-radius:12px;font-size:15px}
+  .ui-size button[aria-pressed=true]{background:#F8FBFD;color:#1E526E;border-color:#F8FBFD}
+  html.ui-large body{font-size:19px}
+  html.ui-large label{font-size:18px!important}
+  html.ui-large .help,html.ui-large .counter,html.ui-large .status,html.ui-large .hint,html.ui-large .notice{font-size:17.5px!important;line-height:1.75}
+  html.ui-large details,html.ui-large details p{font-size:17.5px}
+  html.ui-large summary{font-size:18.5px}
+  html.ui-large .panel h2,html.ui-large .preview-head h2{font-size:22px}
+  html.ui-large textarea,html.ui-large input[type=text],html.ui-large select{font-size:18px!important}
+  html.ui-large button,html.ui-large .filebutton{font-size:17px}
+  html.ui-large .dialogue-card p,html.ui-large .dialogue-card strong,html.ui-large .speaker-head,html.ui-large .person-chip{font-size:18px}
+  html.ui-large .dialogue-card button{font-size:16px}
+  html.ui-large .page-foot{font-size:16px}
+  html.ui-large .preview-wrap>.help{font-size:17px}
+  html.ui-large .bigname-toggle{font-size:18px}
+  html.ui-large .bigname-toggle small{font-size:15.5px}
+  html.ui-large header.cosmos-header .cosmo-subcopy{font-size:16.5px}
+  html.ui-large header.cosmos-header .cosmo-lead{font-size:18px}
+  html.ui-large #mobileNav button{font-size:14.5px}
+  html.ui-large #zoomBar .zt{font-size:15.5px}
+  html.ui-large footer{font-size:14px}
+}
+@media (max-width:700px){.cosmo-start{font-size:15px}html.ui-large .cosmo-start{font-size:17px}}
+
+#mToast{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:60;padding:14px 16px;border-radius:14px;background:#10405a;color:#fff;font-size:16px;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .2s,transform .2s}
+#mToast.show{opacity:1;transform:none}
+#mToast.err{background:#A12738}
+@media (min-width:701px){#mToast{bottom:20px;max-width:480px;margin:auto}}
+
+</style>
+</head>
+<body>
+<div class="nojs-banner" role="alert"><strong>ボタンが動かないときは：</strong>この画面ではプログラム（JavaScript）が動いていません。iPhoneの「ファイル」アプリのプレビューでは動作しないことがあります。Safariなど、ブラウザアプリで開き直してください。</div>
+<header class="cosmos-header">
+  <div class="cosmos-shell">
+    <div class="cosmo-intro">
+      <div class="cosmic-eyebrow"><span class="spark" aria-hidden="true">✦</span>SYNRAI BEAM <span aria-hidden="true">/</span> COSMIC OBSERVATORY</div>
+      <div class="brand"><div class="mark" aria-hidden="true">“</div><h1>会話カード工房</h1><span id="edition" class="badge"></span></div>
+      <p class="cosmo-lead">会話を、読みたくなるカードに。</p>
+      <p class="cosmo-subcopy">名前を登録 → セリフを追加 → 見た目を整えて、まとめて画像へ。<br>あなたの言葉に、ちいさな舞台を。</p>
+      <a class="cosmo-start" href="#namePanel">カードを作ってみる <span aria-hidden="true">↘</span></a>
+    </div>
+    <div class="cosmo-example-wrap" aria-label="完成イメージの装飾見本">
+      <div class="cosmo-example">
+        <div class="cosmo-example-heading"><span>CONVERSATION CARD / SAMPLE</span><span class="ex-star" aria-hidden="true">✦</span></div>
+        <div class="cosmo-example-title">小さな制作会議 <span style="float:right;color:#9BACBC;font-weight:650;font-size:11px">01</span></div>
+        <div class="ex-line"><div class="ex-avatar" aria-hidden="true">書</div><div class="ex-chat"><div class="ex-name">書き手</div><div class="ex-bubble">AIとの会話、記事にかわいく載せたいんだ。</div></div></div>
+        <div class="ex-line right"><div class="ex-avatar" aria-hidden="true">相</div><div class="ex-chat"><div class="ex-name">相棒</div><div class="ex-bubble">じゃあ、会話カードにしてみよう ✨</div></div></div>
+        <div class="cosmo-example-foot">MAKE YOUR CONVERSATIONS SHINE</div>
+      </div>
+      <div class="cosmo-testing-note">※ 上は画面デザイン用のイメージ見本です。実際の出力画像はプレビューで確認できます。</div>
+    </div>
+  </div>
+</header>
+<main><section aria-label="編集">
+<div class="panel" id="namePanel"><h2><span class="step">1</span>名前とアイコンを登録</h2><p class="help">最初に、会話に登場する人の名前を登録します。アイコンは後からでもOK。</p>
+<label for="personName">名前</label><input id="personName" type="text" maxlength="24" placeholder="例：お嬢、ジピ、書き手" autocomplete="off">
+<div class="row person-icon"><span id="personAvatar" class="avatar-placeholder" aria-hidden="true">?</span><label class="filebutton">アイコン画像を選ぶ<input id="personIcon" class="hidden" type="file" accept="image/png,image/jpeg,image/webp"></label><button id="clearPersonIcon" class="hidden">アイコンを外す</button></div>
+<details><summary>吹き出しの色・左右を選ぶ</summary><div class="row"><label for="personSide">配置</label><select id="personSide"><option value="left">左側</option><option value="right">右側</option></select><label for="personColor">色</label><input id="personColor" type="color" value="#dfe9df"></div></details>
+<div class="row"><button id="savePerson" class="primary">この名前を登録</button><button id="newPerson" class="hidden">別の名前を登録する</button></div>
+<div id="registryStatus" class="status" role="status" aria-live="polite"></div><label>登録した名前 <span id="registryCount" class="counter">0人を登録</span></label><div id="savedPeople" class="saved-people"><p class="help">まだ登録されていません。</p></div><p class="help">名前を押すと、アイコンや名前を変更できます。同じブラウザで次回も使えます。</p>
+<details id="transferNames"><summary>名前とアイコンを別のPCへ移す</summary><p class="help">移行用の控えを保存し、移したいPCで読み込みます。ブラウザのデータ消去や本体更新に備える控えにも使えます。会話本文は含みません。</p><div class="row"><button id="exportRegistry">名前とアイコンの控えを保存</button><label class="filebutton">名前とアイコンの控えを開く<input id="registryfile" class="hidden" type="file" accept=".json,application/json"></label></div><label for="removeName">登録から外す名前</label><select id="removeName"><option value="">名前を選ぶ</option></select><button id="removeRegistered">選んだ名前を登録から外す</button></details></div>
+<div class="panel" id="conversationPanel"><h2><span class="step">2</span>セリフを入れる</h2><label for="registeredNames">このセリフを言う人</label><select id="registeredNames"><option value="">先に名前を登録してください</option></select><label for="dialogue">セリフ</label><textarea id="dialogue" class="dialogue" spellcheck="false" placeholder="ここにセリフを書きます。"></textarea><div class="row"><button id="addDialogue" class="primary">会話に追加</button><button id="cancelDialogue" class="hidden">編集をやめる</button></div><div id="composerStatus" class="status" role="status" aria-live="polite"></div>
+<div class="conversation-head"><strong>入力した会話</strong><span id="dialogueCount" class="counter">0発言</span></div><div id="dialogueList" class="dialogue-list"><p class="help">セリフを追加すると、ここに順番に並びます。</p></div>
+<div class="row"><button id="sample">見本を試す</button><button id="clear">会話を空にする</button></div>
+<details id="bulkInput"><summary>長い会話をまとめて貼る・以前のデータを開く</summary><p class="help">まとめて貼るときは、セリフの前に【名前】を付けます。名前とアイコンの登録があれば、同じ名前に適用します。</p><label for="raw">会話原稿</label><textarea id="raw" spellcheck="false" placeholder="【書き手】&#10;会話を、記事にそのまま載せたいんだ。&#10;【相棒】&#10;じゃあ、原稿をここに貼ってみよう。"></textarea><div class="row"><label class="filebutton">TXTを開く<input id="txtfile" class="hidden" type="file" accept=".txt,text/plain"></label><label class="filebutton">編集データを開く<input id="projectfile" class="hidden" type="file" accept=".json,application/json"></label></div><label for="format">貼った原稿の名前の書き方</label><select id="format"><option value="bracket">【名前】</option><option value="colon">「名前：セリフ」も読み取る</option></select><p class="help">原稿を読み取るための設定です。画像の見た目は変わりません。</p><button id="registerCurrent">この会話の名前とアイコンを登録</button></details>
+<div id="demoNotice" class="notice hidden">無料体験版は最初の6発言を画像化します。保存した編集データは正式版でも開けます。</div><button id="build" class="wide">会話プレビューを更新</button><div id="status" class="status" role="status" aria-live="polite"></div></div>
+<div class="panel"><h2><span class="step">3</span>見た目を整える</h2><label for="title">画像に入れるタイトル（空欄でもOK）</label><input id="title" type="text" maxlength="40" placeholder="例：小さな制作会議"><div class="grid2"><div><label for="theme">デザイン</label><select id="theme"><option value="paper">紙とインク</option><option value="sage">セージ</option><option value="pink">さくら</option><option value="night">夜の編集室</option></select></div><div><label for="font">文字サイズ</label><select id="font"><option value="36">小さめ 36</option><option value="42" selected>標準 42</option><option value="48">大きめ 48</option></select></div><div><label for="height">1枚の最大高さ</label><select id="height"><option value="1200">1,200px（短め）</option><option value="1800" selected>1,800px（標準）</option><option value="2400">2,400px（長め）</option></select></div><div><label for="scale">PNGの解像度</label><select id="scale"><option value="1" selected>1倍・横1,000px</option><option value="2">2倍・横2,000px</option></select></div></div><p class="help">長い発言は「続き」と表示して分割。文字の途中で切らずにページへ分けます。絵文字・書体はPCの環境で変わります。</p><details id="currentSettings"><summary>この会話だけのアイコン・色を調整</summary><p class="help">登録した名前とアイコンの変更は①でできます。ここでは今ある会話だけを調整します。</p><div id="speakers"></div></details><button id="refresh" class="wide">会話プレビューを更新</button></div>
+<div class="panel"><h2><span class="step">4</span>画像を保存する</h2><button id="bundle" class="primary wide" disabled>画像＋掲載用テキストをZIP保存</button><div class="row"><button id="saveProject">編集データを保存</button><button id="textOnly">掲載用テキストを保存</button></div><p class="help">ZIPに連番PNG・原稿・画像ごとの代替テキストを同梱。会話本文は自動保存されません。閉じる前に「編集データを保存」で会話とアイコンを残せます。</p><details><summary>記事に使うときのコツ・困ったとき</summary><p>1. ZIPを展開し、PNGを番号順に記事へ入れます。画像内の文字は記事本文として検索・読み上げできない場合があるため、必要に応じて掲載用テキストも本文に添えてください。</p><p>2. noteの代替テキスト欄には、ZIP内の対応するTXTからセリフをコピーできます。記事全文を画像だけにするより、見せ場の短い会話に使うのがおすすめです。</p><p>3. noteの実際の表示は投稿画面・端末で確認してください。本ツールはnote公式製品ではありません。</p><p>4. ブラウザがZIP保存を止める場合は、プレビュー下の「このPNGを保存」で1枚ずつ保存できます。</p><p>5. 対象はPCのChrome / Edge。スマートフォン、Safari、Firefoxの操作は動作保証対象外です。アイコンはPNG / JPEG / WebP（各2MB以下）を選んでください。</p><p>6. 原稿が正しく分かれない場合は原稿の名前の書き方を「【名前】」にし、名前を独立した行へ置きます。</p></details></div>
+</section><section aria-label="プレビュー"><div class="preview-wrap"><div class="preview-head"><h2>会話プレビュー</h2><span id="counter" class="counter">まだ画像はありません</span></div><p class="help">幅は1,000pxで作成。スマホで読める大きさを意識しています。</p><div id="pages"><div class="empty"><div><strong>ここに会話の画像が並びます</strong><br>名前を登録し、セリフを追加すると画像になります。</div></div></div></div></section></main>
+<footer>会話カード工房 v0.9.3 / Dawn Sky · ブラウザ内で処理 · AI生成コードを使用して制作 · 追加のAI契約は不要</footer>
+<script>
+'use strict';
+const EDITION='demo';
+const MAX_CHARS=60000, MAX_TURNS=1000, MAX_SPEAKERS=24;
+const $=id=>document.getElementById(id);
+const themes={paper:{bg:'#fbf8f1',ink:'#29352f',sub:'#637064',a:'#dfe9df',b:'#f0e4d4'},sage:{bg:'#eef3ef',ink:'#243c34',sub:'#5e786a',a:'#d4e8dd',b:'#e8e5d5'},pink:{bg:'#fff6f8',ink:'#4a3540',sub:'#846875',a:'#f6dfe7',b:'#e3e5f2'},night:{bg:'#202938',ink:'#f1f3f7',sub:'#bbc4d2',a:'#384655',b:'#4b3d51'}};
+const SAMPLE='【書き手】\n会話を記事にしたいのに、吹き出しを一つずつ作るのが大変で。\n【相棒】\n原稿ごと貼ったら、まとめて画像にできるよ。\n【書き手】\n文字を直したら、全部スクショ撮り直し？\n【相棒】\nここで直して、もう一度保存すれば大丈夫。\n【書き手】\n編集データも残しておこう。\n【相棒】\nうん。未来の自分に「どこまでやった？」と聞かれないためにね。';
+let state={speakers:Object.create(null)},turns=[],rendered=[],dirty=false,composerTurns=null;
+function setBusy(value){document.querySelectorAll('input,textarea,select,button').forEach(el=>{el.disabled=value});if(!value)$('bundle').disabled=dirty||!rendered.length}
+const segmenter=typeof Intl.Segmenter==='function'?new Intl.Segmenter('ja',{granularity:'grapheme'}):null;
+const graphemes=s=>segmenter?Array.from(segmenter.segment(s),v=>v.segment):Array.from(s);
+function status(message,error=false){$('status').textContent=message;$('status').classList.toggle('error',error)}
+function invalidate(){dirty=true;$('bundle').disabled=true;$('counter').textContent='変更あり・プレビューを更新してください'}
+function parse(raw,format='bracket'){
+ if(raw.length>MAX_CHARS)throw Error('原稿が60,000文字を超えています。章ごとに分けてください。');
+ const result=[];let current=null,leading=[];
+ for(const line of raw.replace(/\r\n?/g,'\n').split('\n')){
+  let match=line.match(/^\s*【([^】\n]{1,24})】[ \t]*(.*)$/);
+  if(!match&&format==='colon')match=line.match(/^([^：:\n\/]{1,24})[：:][ \t]*(.*)$/);
+  if(match){const name=match[1].trim();if(!name)throw Error('空の名前があります。');if(leading.some(l=>l.trim()))result.push({name:'本文',text:leading.join('\n')});leading=[];current={name,text:match[2]};result.push(current)}
+  else if(current)current.text+=(current.text?'\n':'')+line;else leading.push(line);
+ }
+ if(!current&&leading.some(l=>l.trim()))result.push({name:'本文',text:leading.join('\n')});
+ const clean=result.filter(x=>x.text.trim().length).map(x=>({...x,text:x.text.replace(/^\n+|\n+$/g,'')}));
+ if(clean.length>MAX_TURNS)throw Error('1,000発言を超えています。章ごとに分けてください。');
+ if(new Set(clean.map(t=>t.name)).size>MAX_SPEAKERS)throw Error('会話に登場する名前が24人を超えています。原稿を分けてください。');
+ return clean;
+}
+function initSpeakers(list){const th=themes[$('theme').value];const names=[...new Set(list.map(t=>t.name))];for(const name of Object.keys(state.speakers))if(!names.includes(name))delete state.speakers[name];names.forEach((name,i)=>{if(!state.speakers[name])state.speakers[name]=Object.hasOwn(registry,name)?{...registry[name]}:{side:i%2?'right':'left',color:i%2?th.b:th.a,avatar:''}});return names}
+function renderSpeakers(){const box=$('speakers');box.replaceChildren();[...new Set(turns.map(t=>t.name))].forEach(name=>{
+ const s=state.speakers[name],card=document.createElement('div');card.className='speaker';const head=document.createElement('div');head.className='speaker-head';head.textContent=name;card.append(head);const row=document.createElement('div');row.className='row';
+ const side=document.createElement('select');side.setAttribute('aria-label',name+'の配置');['left','right'].forEach((v,i)=>{const o=new Option(i?'右側':'左側',v);side.add(o)});side.value=s.side;side.onchange=()=>{s.side=side.value;invalidate()};row.append(side);const rename=document.createElement('button');rename.textContent='名前を変更';rename.onclick=()=>renameSpeaker(name);row.append(rename);
+ const color=document.createElement('input');color.type='color';color.value=s.color;color.setAttribute('aria-label',name+'の吹き出し色');color.oninput=()=>{s.color=color.value;invalidate()};row.append(color);
+ if(s.avatar){const img=document.createElement('img');img.src=s.avatar;img.alt='';img.className='avatar-thumb';row.append(img)}
+ const label=document.createElement('label');label.className='filebutton';label.textContent='アイコン';const input=document.createElement('input');input.type='file';input.accept='image/png,image/jpeg,image/webp';input.className='hidden';label.append(input);input.onchange=async()=>{try{const f=input.files[0];if(!f)return;if(f.size>2*1024*1024)throw Error('アイコンは2MB以下にしてください。');if(!['image/png','image/jpeg','image/webp'].includes(f.type))throw Error('PNG / JPEG / WebPを選んでください。');s.avatar=await shrinkAvatar(f);renderSpeakers();invalidate();status('アイコンを読み込みました。「会話プレビューを更新」で更新します。')}catch(e){status(e.message,true)}};row.append(label);
+ if(s.avatar){const b=document.createElement('button');b.textContent='外す';b.onclick=()=>{s.avatar='';renderSpeakers();invalidate()};row.append(b)}card.append(row);box.append(card);
+})}
+async function shrinkAvatar(file){const url=URL.createObjectURL(file);try{const img=await loadImage(url);const c=document.createElement('canvas');c.width=c.height=160;const x=c.getContext('2d'),size=Math.min(img.width,img.height);x.drawImage(img,(img.width-size)/2,(img.height-size)/2,size,size,0,0,160,160);return c.toDataURL('image/png')}finally{URL.revokeObjectURL(url)}}
+function loadImage(src){return new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=()=>reject(Error('画像を読み込めませんでした。'));i.src=src})}
+function rr(ctx,x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r)}
+function font(ctx,size,weight='400'){ctx.font=weight+' '+size+'px system-ui, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif'}
+function wrap(ctx,text,maxWidth){const out=[];for(const paragraph of text.split('\n')){let line='';for(const g of graphemes(paragraph)){if(line&&ctx.measureText(line+g).width>maxWidth){out.push(line);line=g}else line+=g}out.push(line)}return out}
+function lightText(color){const r=parseInt(color.slice(1,3),16)/255,g=parseInt(color.slice(3,5),16)/255,b=parseInt(color.slice(5,7),16)/255;const f=v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4;const l=.2126*f(r)+.7152*f(g)+.0722*f(b);return (l+.05)/.05 < 1.05/(l+.05)?'#ffffff':'#17221c'}
+function layout(list){const measure=document.createElement('canvas').getContext('2d');const f=Number($('font').value),lineHeight=Math.ceil(f*1.55),maxH=Number($('height').value),title=$('title').value.trim();font(measure,f);const chunks=[];const top=title?116:40;const capacity=Math.max(1,Math.floor((maxH-top-44-94)/lineHeight));list.forEach((t,ti)=>{const lines=wrap(measure,t.text,696);for(let start=0;start<lines.length;start+=capacity){const part=lines.slice(start,start+capacity);chunks.push({name:t.name,lines:part,continued:start>0,index:ti,height:part.length*lineHeight+94})}});const pages=[];let page={chunks:[],height:top},y=top;for(const chunk of chunks){if(page.chunks.length&&y+chunk.height+44>maxH){page.height=y+22;pages.push(page);page={chunks:[],height:top};y=top}page.chunks.push({...chunk,y});y+=chunk.height+22}if(page.chunks.length){page.height=y+22;pages.push(page)}return {pages,f,lineHeight,title,top}}
+async function makeCanvas(page,meta,number){const scale=Number($('scale').value),c=document.createElement('canvas');c.width=1000*scale;c.height=page.height*scale;const x=c.getContext('2d');x.scale(scale,scale);const th=themes[$('theme').value];x.fillStyle=th.bg;x.fillRect(0,0,1000,page.height);if(meta.title){font(x,34,'700');x.fillStyle=th.ink;let tt=meta.title;while(x.measureText(tt).width>860)tt=graphemes(tt).slice(0,-1).join('');if(tt!==meta.title)tt+='…';x.fillText(tt,40,63);font(x,22);x.fillStyle=th.sub;x.fillText(String(number).padStart(2,'0'),920,62);x.strokeStyle=th.sub;x.globalAlpha=.2;x.beginPath();x.moveTo(40,84);x.lineTo(960,84);x.stroke();x.globalAlpha=1}
+ for(const t of page.chunks){const s=state.speakers[t.name],right=s.side==='right',avatarX=right?892:40,bubbleX=right?124:132,bubbleW=744,bubbleY=t.y+42,bubbleH=t.lines.length*meta.lineHeight+40;const avatarY=t.y+43;
+  x.fillStyle=s.color;rr(x,bubbleX,bubbleY,bubbleW,bubbleH,22);x.fill();x.beginPath();if(right){x.moveTo(bubbleX+bubbleW-1,bubbleY+25);x.lineTo(bubbleX+bubbleW+16,bubbleY+34);x.lineTo(bubbleX+bubbleW-1,bubbleY+46)}else{x.moveTo(bubbleX+1,bubbleY+25);x.lineTo(bubbleX-16,bubbleY+34);x.lineTo(bubbleX+1,bubbleY+46)}x.closePath();x.fill();
+  font(x,28,'600');x.fillStyle=th.ink;x.textAlign=right?'right':'left';x.fillText(t.name+(t.continued?'（続き）':''),right?bubbleX+bubbleW:bubbleX,t.y+26,744);x.textAlign='left';
+  x.save();x.beginPath();x.arc(avatarX+34,avatarY+34,34,0,Math.PI*2);x.clip();x.fillStyle=th.a;x.fillRect(avatarX,avatarY,68,68);if(s.avatar){const i=await loadImage(s.avatar);x.drawImage(i,avatarX,avatarY,68,68)}else{font(x,30,'700');x.fillStyle=lightText(th.a);x.textAlign='center';x.textBaseline='middle';x.fillText(graphemes(t.name).slice(0,2).join(''),avatarX+34,avatarY+35,60)}x.restore();x.textAlign='left';x.textBaseline='alphabetic';font(x,meta.f);x.fillStyle=lightText(s.color);t.lines.forEach((l,i)=>x.fillText(l,bubbleX+24,bubbleY+20+meta.f+i*meta.lineHeight));
+ }
+ return c;
+}
+function releasePages(){for(const r of rendered)if(r.url)URL.revokeObjectURL(r.url);rendered=[]}
+function canvasBlob(canvas){return new Promise((resolve,reject)=>canvas.toBlob(v=>v?resolve(v):reject(Error('PNGの作成に失敗しました。')),'image/png'))}
+function pageText(page){return page.chunks.map(c=>c.name+(c.continued?'（続き）':'')+'：\n'+c.lines.join('\n')).join('\n\n')}
+async function build(){setBusy(true);try{const all=readTurns();if(!all.length)throw Error('②でセリフを追加してください。「見本を試す」からも使えます。');turns=EDITION==='demo'?all.slice(0,6):all;initSpeakers(turns);renderSpeakers();renderDialogueList(all);renderRegistry();setBusy(true);const meta=layout(turns);if(meta.pages.length>150)throw Error('画像が150枚を超えます。原稿を章ごとに分けてください。');const box=$('pages');box.replaceChildren();releasePages();let totalBytes=0;for(let i=0;i<meta.pages.length;i++){status('画像を作成中… '+(i+1)+' / '+meta.pages.length);const canvas=await makeCanvas(meta.pages[i],meta,i+1),text=pageText(meta.pages[i]);const width=canvas.width,height=canvas.height,blob=await canvasBlob(canvas);totalBytes+=blob.size;if(totalBytes>48*1024*1024)throw Error('画像の合計が48MBを超えています。原稿を章ごとに分けてください。');const url=URL.createObjectURL(blob);rendered.push({blob,url,text,width,height});const card=document.createElement('div');card.className='page';const preview=document.createElement('img');preview.src=url;preview.alt=text;preview.loading='lazy';preview.width=width;preview.height=height;card.append(preview);canvas.width=canvas.height=1;const foot=document.createElement('div');foot.className='page-foot';const info=document.createElement('span');info.textContent=String(i+1).padStart(3,'0')+' · '+width+' × '+height+'px';foot.append(info);const b=document.createElement('button');b.textContent='このPNGを保存';b.onclick=()=>download(blob,'card-'+String(i+1).padStart(3,'0')+'.png');foot.append(b);card.append(foot);box.append(card);await new Promise(r=>setTimeout(r,0))}dirty=false;loadedRaw=$('raw').value;$('counter').textContent=turns.length+'発言 / '+rendered.length+'枚';$('bundle').disabled=false;status('できました。画像とテキストをZIPで保存できます。'+(EDITION==='demo'&&all.length>6?'\n体験版のため最初の6発言を出力しました。':''))}catch(e){releasePages();$('pages').replaceChildren();$('counter').textContent='プレビューを作成できませんでした';status(e.message,true)}finally{setBusy(false)}}
+function download(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),30000)}
+function txt(s){return new Blob(['\ufeff'+s],{type:'text/plain;charset=utf-8'})}
+function visibleText(){const all=readTurns(),list=EDITION==='demo'?all.slice(0,6):all;return list.map(t=>'【'+t.name+'】\n'+t.text).join('\n\n')}
+const crcTable=(()=>{const a=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xedb88320^(c>>>1):c>>>1;a[n]=c>>>0}return a})();
+function crc32(bytes){let c=0xffffffff;for(const b of bytes)c=crcTable[(c^b)&255]^(c>>>8);return (c^0xffffffff)>>>0}
+async function zip(files){const parts=[],central=[];let offset=0,centralSize=0;const enc=new TextEncoder(),now=new Date(),date=((Math.max(1980,now.getFullYear())-1980)<<9)|((now.getMonth()+1)<<5)|now.getDate(),time=(now.getHours()<<11)|(now.getMinutes()<<5)|(now.getSeconds()>>1);for(const file of files){const name=enc.encode(file.name),bytes=new Uint8Array(await file.blob.arrayBuffer()),crc=crc32(bytes);const h=new Uint8Array(30),v=new DataView(h.buffer);v.setUint32(0,0x04034b50,true);v.setUint16(4,20,true);v.setUint16(6,0x800,true);v.setUint16(10,time,true);v.setUint16(12,date,true);v.setUint32(14,crc,true);v.setUint32(18,bytes.length,true);v.setUint32(22,bytes.length,true);v.setUint16(26,name.length,true);parts.push(h,name,bytes);const d=new Uint8Array(46),w=new DataView(d.buffer);w.setUint32(0,0x02014b50,true);w.setUint16(4,20,true);w.setUint16(6,20,true);w.setUint16(8,0x800,true);w.setUint16(12,time,true);w.setUint16(14,date,true);w.setUint32(16,crc,true);w.setUint32(20,bytes.length,true);w.setUint32(24,bytes.length,true);w.setUint16(28,name.length,true);w.setUint32(42,offset,true);central.push(d,name);centralSize+=46+name.length;offset+=30+name.length+bytes.length}const end=new Uint8Array(22),e=new DataView(end.buffer);e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,centralSize,true);e.setUint32(16,offset,true);return new Blob([...parts,...central,end],{type:'application/zip'})}
+async function bundle(){if(dirty||!rendered.length){status('先にプレビューを更新してください。',true);return}setBusy(true);try{const files=[];for(let i=0;i<rendered.length;i++){const n=String(i+1).padStart(3,'0'),blob=rendered[i].blob;files.push({name:'card-'+n+'.png',blob},{name:'alt/card-'+n+'.txt',blob:txt(rendered[i].text)})}files.push({name:'conversation.txt',blob:txt(visibleText())},{name:'readme.txt',blob:txt('PNGを番号順に記事へ配置してください。\nconversation.txtは掲載用テキストです。\naltフォルダに画像ごとの代替テキストを収録しています。\n記事全体を画像だけにせず、必要に応じてテキスト本文も添えてください。\n会話カード工房 v0.9.3\n')});download(await zip(files),'conversation-cards.zip');status('ZIPを保存しました。ダウンロード先をご確認ください。')}catch(e){status(e.message,true)}finally{setBusy(false)}}
+function project(){return {app:'conversation-card-studio',version:1,raw:$('raw').value,options:{format:$('format').value,title:$('title').value,theme:$('theme').value,font:$('font').value,height:$('height').value,scale:$('scale').value},speakers:state.speakers,...(composerTurns!==null?{dialogues:composerTurns}: {})}}
+function parseImportJson(text,label){try{return JSON.parse(text)}catch(_){throw Error(label+'が壊れているか、JSON形式ではありません。元のデータは変更していません。')}}
+function validateProject(p){if(!p||p.app!=='conversation-card-studio'||p.version!==1||typeof p.raw!=='string'||p.raw.length>MAX_CHARS)throw Error('対応する編集データではありません。');const o=p.options||{},sp=p.speakers||{};if(typeof o.title!=='string'||o.title.length>40||!Object.hasOwn(themes,o.theme)||!['36','42','48'].includes(o.font)||!['1200','1800','2400'].includes(o.height)||!['1','2'].includes(o.scale)||!['bracket','colon'].includes(o.format))throw Error('編集設定の形式が不正です。');if(typeof sp!=='object'||Object.keys(sp).length>MAX_SPEAKERS*4)throw Error('名前のデータが不正です。');const clean=Object.create(null);for(const [name,s] of Object.entries(sp)){if(name.length>24||!s||!['left','right'].includes(s.side)||typeof s.color!=='string'||!/^#[0-9a-f]{6}$/i.test(s.color)||typeof s.avatar!=='string'||(s.avatar&&!/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(s.avatar))||s.avatar.length>200000)throw Error('名前とアイコンの設定が不正です。');clean[name]={side:s.side,color:s.color,avatar:s.avatar}}if(p.dialogues!==undefined){validateDialogues(p.dialogues);if(serializeDialogues(p.dialogues)!==p.raw)throw Error('会話と原稿の内容が一致しません。')}else parse(p.raw,o.format);return {...p,speakers:clean}}
+$('sample').onclick=()=>{if($('raw').value.trim()&&!confirm('入力中の原稿を見本へ置き換えますか？'))return;composerTurns=null;$('raw').value=SAMPLE;cancelDialogueEdit();invalidate();build()};
+$('clear').onclick=()=>{if($('raw').value.trim()&&!confirm('原稿を空にしますか？必要なら編集データを先に保存してください。'))return;$('raw').value='';composerTurns=[];turns=[];loadedRaw='';state.speakers=Object.create(null);cancelDialogueEdit();invalidate();releasePages();$('pages').replaceChildren();renderDialogueList([]);renderSpeakers();renderRegistry();$('counter').textContent='まだ画像はありません';status('会話を空にしました。登録した名前とアイコンは残ります。')};
+$('build').onclick=build;$('refresh').onclick=build;$('bundle').onclick=bundle;
+['raw','format','title','font','height','scale'].forEach(id=>$(id).addEventListener('input',()=>{if(id==='raw'||id==='format'){composerTurns=null;cancelDialogueEdit()}invalidate()}));
+$('theme').onchange=()=>{const t=themes[$('theme').value];Object.values(state.speakers).forEach(s=>{s.color=s.side==='right'?t.b:t.a});renderSpeakers();invalidate()};
+$('saveProject').onclick=()=>{try{readTurns();download(new Blob([JSON.stringify(project(),null,2)],{type:'application/json'}),'card-project.json');status('編集データを保存しました。アイコンも含まれます。')}catch(e){status(e.message,true)}};
+$('textOnly').onclick=()=>{try{download(txt(visibleText()),'conversation.txt')}catch(e){status(e.message,true)}};
+$('txtfile').onchange=async e=>{try{const f=e.target.files[0];if(!f)return;if(f.size>2*1024*1024)throw Error('TXTは2MB以下にしてください。');const value=await f.text();if(value.length>MAX_CHARS)throw Error('60,000文字を超えています。原稿を分けてください。');if($('raw').value.trim()&&!confirm('入力中の原稿をファイルの内容へ置き換えますか？'))return;composerTurns=null;cancelDialogueEdit();$('raw').value=value.replace(/^\ufeff/,'');invalidate();status('TXTを読み込みました。文字化けする場合はUTF-8で保存してください。')}catch(err){status(err.message,true)}finally{e.target.value=''}};
+$('projectfile').onchange=async e=>{try{const f=e.target.files[0];if(!f)return;if(f.size>8*1024*1024)throw Error('編集データは8MB以下にしてください。');const p=validateProject(parseImportJson(await f.text(),'編集データ'));if($('raw').value.trim()&&!confirm('現在の原稿と設定を編集データへ置き換えますか？'))return;$('raw').value=p.raw;composerTurns=p.dialogues===undefined?null:p.dialogues.map(t=>({...t}));cancelDialogueEdit();for(const k of ['format','title','theme','font','height','scale'])$(k).value=p.options[k];state.speakers=p.speakers;invalidate();await build()}catch(err){status(err.message,true)}finally{e.target.value=''}};
+window.addEventListener('beforeunload',e=>{if($('raw').value.trim()||$('dialogue').value.trim()){e.preventDefault();e.returnValue=''}});
+$('edition').textContent=EDITION==='demo'?'無料体験版 · 6発言 · v0.9.3':'買い切り版 · v0.9.3';$('demoNotice').classList.toggle('hidden',EDITION!=='demo');
+const REGISTRY_KEY='conversation-card-studio.characters.v1',MAX_REGISTERED=48;
+let registry=Object.create(null),loadedRaw='',editingPerson='',personDraft={side:'left',color:'#dfe9df',avatar:''},editingDialogue=-1;
+function registryMessage(message,error=false){$('registryStatus').textContent=message;$('registryStatus').classList.toggle('error',error)}
+function composerMessage(message,error=false){$('composerStatus').textContent=message;$('composerStatus').classList.toggle('error',error)}
+function validateName(name){if(typeof name!=='string'||!name.trim()||name!==name.trim()||name.length>24||/[【】：:\r\n]/.test(name))throw Error('名前は1〜24文字で入力してください。【 】・コロン・改行は使えません。');return name}
+function checkRegistry(data){
+ if(!data||data.app!=='conversation-card-characters'||data.version!==1||!data.speakers||typeof data.speakers!=='object'||Array.isArray(data.speakers)||Object.keys(data.speakers).length>MAX_REGISTERED)throw Error('名前とアイコンの控えではありません。登録は最大48人です。');
+ for(const name of Object.keys(data.speakers))if(!name.trim()||name!==name.trim()||name.length>24||/[【】\r\n]/.test(name))throw Error('控えに使えない名前が含まれています。名前を確認してください。');
+ return validateProject({app:'conversation-card-studio',version:1,raw:'',options:{format:'bracket',title:'',theme:'paper',font:'42',height:'1800',scale:'1'},speakers:data.speakers}).speakers;
+}
+function registryData(){return {app:'conversation-card-characters',version:1,speakers:registry}}
+function persistRegistry(){try{localStorage.setItem(REGISTRY_KEY,JSON.stringify(registryData()));registryMessage('保存しました。同じブラウザで次回も使えます。');return true}catch(e){$('transferNames').open=true;registryMessage('ブラウザに保存できませんでした。「名前とアイコンの控えを保存」で残し、次回読み込んでください。',true);return false}}
+function renderRegistry(){
+ let used=[];try{used=readTurns().map(t=>t.name)}catch(e){}
+ const select=$('registeredNames'),previous=select.value,names=[...new Set([...Object.keys(registry),...used,...Object.keys(state.speakers)])];select.replaceChildren(new Option(names.length?'名前を選ぶ':'先に名前を登録してください',''));for(const name of names)select.add(new Option(name+(Object.hasOwn(registry,name)?'':'（この会話のみ）'),name));if(names.includes(previous))select.value=previous;else if(names.length)select.value=names[0];
+ const remove=$('removeName'),oldRemove=remove.value;remove.replaceChildren(new Option('名前を選ぶ',''));for(const name of Object.keys(registry))remove.add(new Option(name,name));if(Object.hasOwn(registry,oldRemove))remove.value=oldRemove;
+ $('registryCount').textContent=Object.keys(registry).length+'人を登録';const box=$('savedPeople');box.replaceChildren();if(!Object.keys(registry).length){const p=document.createElement('p');p.className='help';p.textContent='まだ登録されていません。';box.append(p)}
+ for(const [name,s] of Object.entries(registry)){const b=document.createElement('button');b.className='person-chip';b.setAttribute('aria-pressed',String(name===editingPerson));if(s.avatar){const i=document.createElement('img');i.src=s.avatar;i.alt='';b.append(i)}const text=document.createElement('span');text.textContent=name;b.append(text);b.onclick=()=>selectPerson(name);box.append(b)}
+}
+function renderPersonForm(){
+ $('personName').value=editingPerson;$('personSide').value=personDraft.side;$('personColor').value=personDraft.color;renderPersonAvatar();$('savePerson').textContent=editingPerson?'変更を保存':'この名前を登録';$('newPerson').classList.toggle('hidden',!editingPerson);
+}
+function renderPersonAvatar(){const span=$('personAvatar');span.replaceChildren();if(personDraft.avatar){const i=document.createElement('img');i.src=personDraft.avatar;i.alt='選んだアイコン';span.append(i)}else span.textContent=graphemes($('personName').value.trim()).slice(0,2).join('')||'?';$('clearPersonIcon').classList.toggle('hidden',!personDraft.avatar)}
+function selectPerson(name){editingPerson=name;personDraft={...registry[name]};renderPersonForm();renderRegistry();$('registeredNames').value=name;registryMessage('「'+name+'」を選びました。変更したら「変更を保存」を押してください。')}
+function newPerson(){editingPerson='';const th=themes[$('theme').value],right=Object.keys(registry).length%2;personDraft={side:right?'right':'left',color:right?th.b:th.a,avatar:''};renderPersonForm();renderRegistry();registryMessage('名前を入力して登録してください。');$('personName').focus()}
+function loadRegistry(){try{const data=localStorage.getItem(REGISTRY_KEY);if(data)registry=checkRegistry(JSON.parse(data));renderRegistry();renderPersonForm();if(data)registryMessage('登録した名前とアイコンを読み込みました。')}catch(e){renderRegistry();renderPersonForm();$('transferNames').open=true;registryMessage('名前を読み込めませんでした。控えがあれば「名前とアイコンの控えを開く」で戻せます。',true)}}
+function rewriteName(raw,oldName,newName){return raw.split('\n').map(line=>{let m=line.match(/^\s*【([^】\n]{1,24})】[ \t]*(.*)$/);if(m&&m[1].trim()===oldName)return line.replace(/【[^】\n]+】/,'【'+newName+'】');if(!m&&$('format').value==='colon'){m=line.match(/^([^：:\n\/]{1,24})[：:][ \t]*(.*)$/);if(m&&m[1].trim()===oldName)return newName+line.slice(m[1].length)}return line}).join('\n')}
+function applyRename(oldName,newName){
+ if(Object.hasOwn(state.speakers,newName)||Object.hasOwn(registry,newName))throw Error('その名前は既に使われています。別の名前を入力してください。');
+ const raw=composerTurns!==null?serializeDialogues(composerTurns.map(t=>({...t,name:t.name===oldName?newName:t.name}))):rewriteName($('raw').value,oldName,newName);
+ if(raw.length>MAX_CHARS)throw Error('名前の変更で文字数上限を超えます。');if(composerTurns===null)parse(raw,$('format').value);
+ if(composerTurns!==null)composerTurns=composerTurns.map(t=>({...t,name:t.name===oldName?newName:t.name}));$('raw').value=raw;if(Object.hasOwn(state.speakers,oldName)){state.speakers[newName]={...state.speakers[oldName]};delete state.speakers[oldName]}
+ if(Object.hasOwn(registry,oldName)){registry[newName]={...registry[oldName]};delete registry[oldName]}
+}
+async function savePerson(){try{
+ const name=validateName($('personName').value.trim());if(!editingPerson&&Object.hasOwn(registry,name))throw Error('その名前は登録済みです。下の名前を押すと変更できます。');if(!editingPerson&&Object.keys(registry).length>=MAX_REGISTERED)throw Error('登録は48人までです。控えのメニューから不要な登録を外してください。');
+ if(editingPerson&&name!==editingPerson)applyRename(editingPerson,name);
+ personDraft.side=$('personSide').value;personDraft.color=$('personColor').value;registry[name]={...personDraft};if(Object.hasOwn(state.speakers,name))state.speakers[name]={...personDraft};editingPerson=name;renderPersonForm();renderRegistry();$('registeredNames').value=name;const saved=persistRegistry();
+ if($('raw').value.trim()){invalidate();await build()}
+ if(saved)registryMessage('「'+name+'」を保存しました。②でセリフを入れられます。');
+ }catch(e){registryMessage(e.message,true)}}
+function registerCurrent(){try{if(!turns.length||$('raw').value!==loadedRaw)throw Error('先に「会話プレビューを更新」で会話を読み込んでください。');const next=Object.assign(Object.create(null),registry);for(const name of new Set(turns.map(t=>t.name)))next[name]={...state.speakers[name]};if(Object.keys(next).length>MAX_REGISTERED)throw Error('登録は48人までです。不要な名前の登録を外してください。');registry=checkRegistry({app:'conversation-card-characters',version:1,speakers:next});renderRegistry();persistRegistry()}catch(e){registryMessage(e.message,true)}}
+async function renameSpeaker(oldName){const entered=prompt('新しい名前を入れてください。アイコン・色・左右はそのまま使えます。',oldName);if(entered===null)return;try{const name=validateName(entered.trim());if(name===oldName)return;if($('raw').value!==loadedRaw)throw Error('先に「会話プレビューを更新」を押してください。');if(oldName==='本文')throw Error('名前のない本文です。原稿に【名前】を付けてください。');const registered=Object.hasOwn(registry,oldName);applyRename(oldName,name);if(editingPerson===oldName){editingPerson=name;renderPersonForm()}renderRegistry();if(registered)persistRegistry();invalidate();await build();if(!dirty)status('名前を「'+name+'」に変更しました。アイコンも引き継ぎました。')}catch(e){status(e.message,true)}}
+function serializeDialogues(list){return list.map(t=>'【'+t.name+'】\n'+t.text).join('\n\n')}
+function validateDialogues(list){if(!Array.isArray(list)||list.length>MAX_TURNS)throw Error('会話は1,000発言までです。');const names=new Set();for(const t of list){if(!t||typeof t.name!=='string'||!t.name.trim()||t.name.length>24||/[【】\r\n]/.test(t.name)||typeof t.text!=='string'||!t.text.trim())throw Error('会話の形式が不正です。');names.add(t.name)}if(names.size>MAX_SPEAKERS)throw Error('1つの会話に登場できる名前は24人までです。');if(serializeDialogues(list).length>MAX_CHARS)throw Error('会話が60,000文字を超えます。章ごとに分けてください。');return list}
+function readTurns(){return composerTurns===null?parse($('raw').value,$('format').value):validateDialogues(composerTurns)}
+function cancelDialogueEdit(){editingDialogue=-1;$('dialogue').value='';$('addDialogue').textContent='会話に追加';$('cancelDialogue').classList.add('hidden');composerMessage('')}
+function renderDialogueList(list){const box=$('dialogueList');box.replaceChildren();$('dialogueCount').textContent=list.length+'発言';if(!list.length){const p=document.createElement('p');p.className='help';p.textContent='セリフを追加すると、ここに順番に並びます。';box.append(p)}list.forEach((t,index)=>{const card=document.createElement('div');card.className='dialogue-card';const head=document.createElement('strong');head.textContent=(index+1)+'. '+t.name;card.append(head);const p=document.createElement('p');p.textContent=t.text;card.append(p);const row=document.createElement('div');row.className='row';const edit=document.createElement('button');edit.textContent='セリフを直す';edit.onclick=()=>editDialogue(index);const remove=document.createElement('button');remove.textContent='外す';remove.onclick=()=>removeDialogue(index);row.append(edit,remove);card.append(row);box.append(card)})}
+function editDialogue(index){try{const list=readTurns();if(!list[index])return;editingDialogue=index;renderRegistry();$('registeredNames').value=list[index].name;$('dialogue').value=list[index].text;$('addDialogue').textContent='セリフの変更を保存';$('cancelDialogue').classList.remove('hidden');composerMessage((index+1)+'番目のセリフを編集中です。');$('dialogue').focus()}catch(e){composerMessage(e.message,true)}}
+async function commitDialogueList(list){validateDialogues(list);composerTurns=list;$('raw').value=serializeDialogues(list);cancelDialogueEdit();invalidate();if(list.length)await build();else{turns=[];loadedRaw='';state.speakers=Object.create(null);releasePages();$('pages').replaceChildren();renderDialogueList([]);renderSpeakers();renderRegistry();$('counter').textContent='まだ画像はありません';status('会話が空になりました。名前とアイコンの登録は残ります。')}}
+async function addDialogue(){try{const name=$('registeredNames').value,text=$('dialogue').value;if(!name)throw Error('先に①で名前を登録してください。');if(!text.trim())throw Error('セリフを入れてください。');const list=readTurns().map(t=>({...t}));if(editingDialogue>=0){if(!list[editingDialogue])throw Error('会話が変わりました。編集をやめて、もう一度選んでください。');list[editingDialogue]={name,text}}else list.push({name,text});await commitDialogueList(list);composerMessage('追加・変更した会話をプレビューに反映しました。')}catch(e){composerMessage(e.message,true)}}
+async function removeDialogue(index){try{const list=readTurns().map(t=>({...t}));if(!list[index])return;if(!confirm((index+1)+'番目のセリフを会話から外しますか？'))return;list.splice(index,1);await commitDialogueList(list)}catch(e){composerMessage(e.message,true)}}
+$('savePerson').onclick=savePerson;$('newPerson').onclick=newPerson;$('personName').oninput=renderPersonAvatar;
+$('personIcon').onchange=async e=>{try{const f=e.target.files[0];if(!f)return;if(f.size>2*1024*1024)throw Error('アイコンは2MB以下にしてください。');if(!['image/png','image/jpeg','image/webp'].includes(f.type))throw Error('PNG / JPEG / WebPを選んでください。');setBusy(true);personDraft.avatar=await shrinkAvatar(f);renderPersonAvatar();registryMessage('アイコンを選びました。登録・変更を保存すると使えます。')}catch(err){registryMessage(err.message,true)}finally{e.target.value='';setBusy(false)}};
+$('clearPersonIcon').onclick=()=>{personDraft.avatar='';renderPersonAvatar()};
+$('registerCurrent').onclick=registerCurrent;$('addDialogue').onclick=addDialogue;$('cancelDialogue').onclick=cancelDialogueEdit;
+$('exportRegistry').onclick=()=>{if(!Object.keys(registry).length){registryMessage('先に名前を登録してください。',true);return}download(new Blob([JSON.stringify(registryData(),null,2)],{type:'application/json'}),'card-characters.json');registryMessage('名前とアイコンの控えを保存しました。別のPCや更新版で開いて使えます。')};
+$('removeRegistered').onclick=()=>{const name=$('removeName').value;if(!name){registryMessage('登録から外す名前を選んでください。',true);return}if(!confirm('「'+name+'」を登録から外しますか？入力した会話は残ります。'))return;delete registry[name];if(editingPerson===name){editingPerson='';personDraft={side:'left',color:themes[$('theme').value].a,avatar:''};renderPersonForm()}renderRegistry();if(persistRegistry())registryMessage('「'+name+'」を登録から外しました。')};
+$('registryfile').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>12*1024*1024)throw Error('控えは12MB以下にしてください。');const incoming=checkRegistry(parseImportJson(await file.text(),'名前とアイコンの控え')),next=Object.assign(Object.create(null),registry),overlap=Object.keys(incoming).filter(name=>Object.hasOwn(next,name));if(Object.keys(next).length+Object.keys(incoming).filter(name=>!Object.hasOwn(next,name)).length>MAX_REGISTERED)throw Error('読み込むと48人を超えます。不要な登録を外してください。');if(overlap.length&&!confirm('同じ名前が'+overlap.length+'人あります。控えのアイコン・設定で上書きしますか？'))return;Object.assign(next,incoming);registry=next;renderRegistry();if(editingPerson&&Object.hasOwn(registry,editingPerson)){personDraft={...registry[editingPerson]};renderPersonForm()}if(persistRegistry())registryMessage('名前とアイコンを読み込みました。②で名前を選んで使えます。今ある会話の見た目は変えません。')}catch(err){registryMessage(err.message,true)}finally{e.target.value=''}};
+loadRegistry();
+
+</script>
+<nav id="mobileNav" aria-label="ページ内の移動">
+  <button type="button" data-go="namePanel"><span class="ni" aria-hidden="true">①</span>名前</button>
+  <button type="button" data-go="conversationPanel"><span class="ni" aria-hidden="true">②</span>セリフ</button>
+  <button type="button" data-go="previewSection"><span class="ni" aria-hidden="true">▣</span>プレビュー</button>
+  <button type="button" data-go="savePanel"><span class="ni" aria-hidden="true">↓</span>保存</button>
+</nav>
+<div id="zoomView" role="dialog" aria-modal="true" aria-label="画像の拡大表示" aria-hidden="true">
+  <div id="zoomBar"><div class="zt">指でつまんで拡大・ドラッグで移動できます</div><button type="button" id="zoomShare">保存・共有</button><button type="button" id="zoomClose">閉じる</button></div>
+  <div id="zoomScroll"><img id="zoomImg" alt=""></div>
+  <div id="zoomHint">画像を長押しすると、端末の保存メニューが出る場合があります</div>
+</div>
+
+<script id="mobile-layer-js">
+/* スマホ層。エンジンの内部状態は読むだけ（rendered / download）。書き換えない。 */
+(function(){
+'use strict';
+document.documentElement.classList.add('js-ok');
+var $=function(id){return document.getElementById(id)};
+// ラベル付け（エンジンのマークアップに id を足すだけ）
+var panels=document.querySelectorAll('main>section[aria-label="編集"]>.panel');
+if(panels[2])panels[2].id='stylePanel';
+if(panels[3])panels[3].id='savePanel';
+var pv=document.querySelector('main>section[aria-label="プレビュー"]');if(pv)pv.id='previewSection';
+// 表示名
+var ed=$('edition');var isDemo=ed&&ed.textContent.indexOf('無料体験版')>=0;if(ed)ed.textContent=isDemo?'無料体験版 · 6発言 · スマホ試作':'スマホ版 試作 · v0.9.3ベース';
+var ft=document.querySelector('footer');if(ft)ft.textContent='会話カード工房 '+(isDemo?'無料体験版 ':'')+'スマホ版（試作） / v0.9.3ベース · ブラウザ内で処理・外部送信なし · AI生成コードを使用して制作';
+var helpPv=document.querySelector('.preview-wrap>.help');
+if(helpPv)helpPv.textContent='幅1,000pxで作成。画像をタップすると拡大できます。';
+
+
+// ---- 人物名を大きく（初期値オフ＝従来と同一の画像）----
+// エンジンの名前ラベルは font(ctx,28,'600') で描かれる。オンのときだけその呼び出しを大きくする。
+var bigNames=true, NAME_SIZE=40;
+var origFont=window.font;
+if(typeof origFont==='function'){
+  window.font=function(ctx,size,weight){
+    if(bigNames&&size===28&&weight==='600')return origFont(ctx,NAME_SIZE,'700');
+    return origFont.apply(this,arguments);
+  };
+  var fontSel=$('font');
+  if(fontSel&&fontSel.parentNode){
+    var wrap=document.createElement('label');wrap.className='bigname-toggle';
+    var cb=document.createElement('input');cb.type='checkbox';cb.id='bigNames';cb.checked=true;
+    var tx=document.createElement('span');tx.innerHTML='人物名を大きく<small>LINE並みの大きさ（オフでPC版と同じ）</small>';
+    wrap.append(cb,tx);fontSel.parentNode.append(wrap);
+    cb.onchange=function(){bigNames=cb.checked;if(typeof invalidate==='function')invalidate()};
+  }
+  // スマホ版の初期値: 本文「大きめ48」（LINE並み）。編集データを開いたときはその設定が優先される
+  if(fontSel)fontSel.value='48';
+}
+
+document.querySelectorAll('.help').forEach(function(h){if(h.textContent.indexOf('PCの環境で変わります')>=0)h.textContent=h.textContent.replace('PCの環境で変わります','使う端末で変わります')});
+
+
+// ---- 画面の文字の大きさ（標準／大きめ）。初期値は大きめ。選択はこの端末に記憶 ----
+var UI_KEY='conversation-card-studio.mobile.uisize';
+function setUiSize(v){document.documentElement.classList.toggle('ui-large',v==='large');
+  document.querySelectorAll('.ui-size button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.size===v))});
+  try{localStorage.setItem(UI_KEY,v)}catch(_){}}
+(function(){
+  var host=document.querySelector('.cosmo-intro');if(!host)return;
+  var box=document.createElement('div');box.className='ui-size';box.setAttribute('role','group');box.setAttribute('aria-label','画面の文字の大きさ');
+  var l=document.createElement('span');l.className='us-label';l.textContent='文字の大きさ';box.append(l);
+  [['normal','標準'],['large','大きめ']].forEach(function(o){var b=document.createElement('button');b.type='button';b.dataset.size=o[0];b.textContent=o[1];b.onclick=function(){setUiSize(o[0])};box.append(b)});
+  var start=host.querySelector('.cosmo-start');host.insertBefore(box,start||null);
+  var saved=null;try{saved=localStorage.getItem(UI_KEY)}catch(_){}
+  setUiSize(saved==='normal'?'normal':'large');
+})();
+
+
+// ---- Claudeのページ上では、保存をClaudeの保存の仕組み(downloads)経由に切り替える ----
+// 通常のブラウザ(window.claude が無い)では何もしない＝従来のダウンロードのまま。
+var origDownload=window.download;
+if(typeof origDownload==='function'&&window.claude&&typeof window.claude.use==='function'){
+  var dlNs=null;
+  window.claude.use('downloads').then(function(ns){dlNs=ns}).catch(function(){});
+  window.download=function(blob,name){
+    if(!dlNs)return origDownload(blob,name);
+    var say=function(t,e){var s=$('status');if(s){s.textContent=t;s.classList.toggle('error',!!e)}};
+    Promise.resolve().then(function(){return dlNs.save({filename:name,data:blob})})
+      .then(function(){say('「'+name+'」の保存を受け付けました。')})
+      .catch(function(err){
+        // Blobを受け付けない実装に備え、バイト列で再試行
+        return blob.arrayBuffer().then(function(buf){return dlNs.save({filename:name,data:new Uint8Array(buf)})})
+          .then(function(){say('「'+name+'」の保存を受け付けました。')})
+          .catch(function(e2){say('保存できませんでした（'+((e2&&e2.message)||(err&&err.message)||'キャンセル')+'）',true)});
+      });
+  };
+}
+
+
+// ---- 保存結果を押した場所の近く（下部ナビの上）に表示するトースト ----
+var toast=document.createElement('div');toast.id='mToast';toast.setAttribute('role','status');toast.setAttribute('aria-live','polite');document.body.append(toast);
+var toastTimer=null;
+function showToast(msg,err){toast.textContent=msg;toast.className='show'+(err?' err':'');clearTimeout(toastTimer);toastTimer=setTimeout(function(){toast.className=''},6000)}
+// ---- 保存方式の切り替え ----
+// Claudeのページ内では普通のダウンロードがブロックされるので、Claudeの保存機能を使う（iOSアプリでは共有シート）。
+var engineDownload=window.download, dlMode='通常のダウンロード', dlNs=null, inClaude=!!(window.claude&&typeof window.claude.use==='function');
+if(inClaude){dlMode='確認中…';
+  window.claude.use('downloads').then(function(dl){dlNs=dl;dlMode=dl?'Claudeの保存機能':'使えない（この画面）';updDiag()},function(e){dlMode='使えない（エラー）';updDiag()});
+}
+if(typeof engineDownload==='function'){
+  window.download=function(blob,name){
+    if(!inClaude){engineDownload(blob,name);showToast('「'+name+'」の保存を始めました。');return}
+    if(!dlNs){showToast(dlMode==='確認中…'?'保存の準備中です。数秒待ってからもう一度押してください。':'この画面では保存が使えませんでした（保存方式：'+dlMode+'）。',true);return}
+    showToast('保存の確認を表示しています…');
+    dlNs.save({filename:name,data:blob}).then(function(){showToast('「'+name+'」を保存しました。')},function(e){
+      var c=e&&e.code;
+      if(c==='declined')showToast('保存をキャンセルしました。');
+      else if(c==='rate_limited')showToast('確認画面が開いています。少し待ってからもう一度押してください。',true);
+      else showToast('保存できませんでした（'+(c||'不明')+'）。',true);
+    });
+  };
+}
+// 診断表示（保存パネルの下）
+var diag=document.createElement('p');diag.className='help';diag.id='dlDiag';
+function updDiag(){diag.textContent='保存方式：'+dlMode}
+updDiag();var sp=$('savePanel');if(sp)sp.append(diag);
+
+// 下部ナビ
+var nav=$('mobileNav');
+nav.addEventListener('click',function(e){
+  var b=e.target.closest('button[data-go]');if(!b)return;
+  var t=$(b.getAttribute('data-go'));if(!t)return;
+  t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'});
+});
+// いま見ている場所をナビに反映
+if('IntersectionObserver' in window){
+  var ids=['namePanel','conversationPanel','previewSection','savePanel'],cur=null;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){if(en.isIntersecting)cur=en.target.id});
+    nav.querySelectorAll('button').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-go')===cur)});
+  },{rootMargin:'-30% 0px -55% 0px'});
+  ids.forEach(function(id){var el=$(id);if(el)io.observe(el)});
+}
+
+// 共有（対応端末ではOSの共有シート → 「画像を保存」で写真へ）。非対応/失敗時は従来のダウンロード
+function canShareFiles(){try{return !!(navigator.share&&navigator.canShare&&navigator.canShare({files:[new File([new Blob(['x'])],'x.png',{type:'image/png'})]}))}catch(_){return false}}
+async function sharePng(i){
+  var r=rendered[i];if(!r)return;
+  var name='card-'+String(i+1).padStart(3,'0')+'.png';
+  try{
+    var f=new File([r.blob],name,{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f]});return}
+  }catch(e){if(e&&e.name==='AbortError')return}
+  download(r.blob,name);
+}
+
+// 拡大ビューア
+var zv=$('zoomView'),zi=$('zoomImg'),zIndex=-1,lastFocus=null;
+function openZoom(i){
+  var r=rendered[i];if(!r)return;zIndex=i;zi.src=r.url;zi.alt=r.text||'';
+  lastFocus=document.activeElement;zv.classList.add('open');zv.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';$('zoomClose').focus();
+}
+function closeZoom(){zv.classList.remove('open');zv.setAttribute('aria-hidden','true');zi.removeAttribute('src');document.body.style.overflow='';if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+$('zoomClose').onclick=closeZoom;
+$('zoomShare').onclick=function(){if(zIndex>=0)sharePng(zIndex)};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&zv.classList.contains('open'))closeZoom()});
+
+// プレビューに生成される .page へ「拡大」「保存・共有」を後付け
+function decorate(card){
+  if(card.dataset.mdone)return;card.dataset.mdone='1';
+  var all=Array.prototype.slice.call(document.querySelectorAll('#pages .page'));
+  var img=card.querySelector('img'),foot=card.querySelector('.page-foot');
+  if(img){img.addEventListener('click',function(){openZoom(Array.prototype.indexOf.call(document.querySelectorAll('#pages .page'),card))});}
+  if(foot){
+    var z=document.createElement('button');z.type='button';z.textContent='拡大';z.onclick=function(){openZoom(Array.prototype.indexOf.call(document.querySelectorAll('#pages .page'),card))};
+    foot.insertBefore(z,foot.querySelector('button'));
+    if(canShareFiles()){var s=document.createElement('button');s.type='button';s.className='share-btn';s.textContent='共有・写真に保存';s.onclick=function(){sharePng(Array.prototype.indexOf.call(document.querySelectorAll('#pages .page'),card))};foot.append(s)}
+  }
+}
+var pages=$('pages');
+new MutationObserver(function(){pages.querySelectorAll('.page').forEach(decorate)}).observe(pages,{childList:true});
+pages.querySelectorAll('.page').forEach(decorate);
+})();
+
+</script>
+</body></html>
