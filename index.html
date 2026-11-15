@@ -672,6 +672,31 @@ var diag=document.createElement('p');diag.className='help';diag.id='dlDiag';
 function updDiag(){diag.textContent='保存方式：'+dlMode}
 updDiag();var sp=$('savePanel');if(sp)sp.append(diag);
 
+
+// ---- セリフ追加後、話す人を自動で次の人へ（交互の会話を楽に）----
+(function(){
+  var btn=$('addDialogue'),sel=$('registeredNames'),st=$('composerStatus');if(!btn||!sel||!st)return;
+  var pending=false;
+  btn.addEventListener('click',function(){var editing=false;try{editing=editingDialogue>=0}catch(_){}pending=!editing},true);
+  new MutationObserver(function(){
+    if(!pending)return;
+    if(st.classList.contains('error')){pending=false;return}
+    if(st.textContent.indexOf('反映しました')<0)return;
+    pending=false;
+    var list=[];try{list=readTurns()}catch(_){return}
+    if(!list.length)return;
+    var last=list[list.length-1].name,next='';
+    for(var i=list.length-2;i>=0;i--){if(list[i].name!==last){next=list[i].name;break}}
+    var opts=[].slice.call(sel.options).map(function(o){return o.value}).filter(Boolean);
+    if(!next||opts.indexOf(next)<0){var k=opts.indexOf(last);if(opts.length>1)next=opts[(k+1)%opts.length]}
+    if(next&&next!==last&&opts.indexOf(next)>=0){
+      sel.value=next;
+      st.textContent=st.textContent+'\n次は「'+next+'」のセリフにしました（変えられます）。';
+      sel.classList.remove('nav-flash');void sel.offsetWidth;sel.classList.add('nav-flash');
+    }
+  }).observe(st,{childList:true,characterData:true,subtree:true});
+})();
+
 // 下部ナビ
 var nav=$('mobileNav');
 nav.addEventListener('click',function(e){
